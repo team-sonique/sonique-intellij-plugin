@@ -1,4 +1,4 @@
-package sonique.intellij;
+package sonique.intellij.inspection;
 
 import com.intellij.codeInsight.AnnotationUtil;
 import com.intellij.codeInsight.daemon.JavaErrorMessages;
@@ -19,8 +19,8 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 public class SoniqueDeprecationElementVisitor extends JavaElementVisitor {
-    private static Logger LOGGER = (Logger) Logger.getInstance(SoniqueDeprecationElementVisitor.class); 
-    
+    private static Logger LOGGER = (Logger) Logger.getInstance(SoniqueDeprecationElementVisitor.class);
+
     private ProblemsHolder myHolder;
     private boolean myIgnoreInsideDeprecated;
     private boolean myIgnoreAbstractDeprecatedOverrides;
@@ -160,7 +160,7 @@ public class SoniqueDeprecationElementVisitor extends JavaElementVisitor {
                     annotation.findAttributeValue("reason").getText(),
                     annotation.findAttributeValue("use").getText(),
                     annotation.findAttributeValue("date").getText());
-            
+
             holder.registerProblem(elementToHighlight, description, ProblemHighlightType.LIKE_DEPRECATED, rangeInElement);
         }
     }

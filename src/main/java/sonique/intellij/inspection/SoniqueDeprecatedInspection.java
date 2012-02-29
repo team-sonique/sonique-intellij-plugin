@@ -1,4 +1,4 @@
-package sonique.intellij;
+package sonique.intellij.inspection;
 
 import com.intellij.codeInspection.BaseJavaLocalInspectionTool;
 import com.intellij.codeInspection.ProblemsHolder;

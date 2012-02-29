@@ -1,21 +1,25 @@
 <idea-plugin version="2">
-  <name>Plugin name here</name>
-  <description>short description of the plugin</description>
-  <version>1.0</version>
-  <vendor>YourCompany</vendor>
-  <idea-version since-build="8000"/>
+    <name>Sonique Super Awesome Plugin</name>
+    <description>A plugin of awesomeness and super duper abilities</description>
+    <version>1.0</version>
+    <vendor>Smunt</vendor>
+    <idea-version since-build="8000"/>
 
-  <application-components></application-components>
+    <application-components></application-components>
 
-  <project-components>
-    <!-- Add your project components here -->
-  </project-components>
+    <project-components>
+        <!-- Add your project components here -->
+    </project-components>
 
-  <actions>
-    <!-- Add your actions here -->
-  </actions>
+    <actions>
+        <group id="builder.plugin.group" text="Builder..." description="Builder Generator" popup="true">
+            <add-to-group group-id="GenerateGroup" relative-to-action="GenerateEquals" anchor="after"/>
+            <action id="builder.plugin.generate.with.method" class="sonique.intellij.action.GenerateWithMethodAction" text="with method" description="Generate 'With' Methods"/>
+            <action id="builder.plugin.generate.with.name.method" class="sonique.intellij.action.GenerateWithNameMethodAction" text="withName method" description="Generate 'WithName' Methods"/>
+        </group>
+    </actions>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <inspectionToolProvider implementation="sonique.intellij.SoniqueDeprecatedInspectionProvider"/>
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <inspectionToolProvider implementation="sonique.intellij.inspection.SoniqueDeprecatedInspectionProvider"/>
+    </extensions>
 </idea-plugin>
