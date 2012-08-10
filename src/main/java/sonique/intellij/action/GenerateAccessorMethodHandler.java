@@ -6,24 +6,23 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
-import com.intellij.psi.codeStyle.VariableKind;
 import com.intellij.psi.util.PsiUtil;
 import com.intellij.util.IncorrectOperationException;
 
 import java.util.List;
 
-public class GenerateWithMethodHandler extends GenerateSetterHandler {
+public class GenerateAccessorMethodHandler extends GenerateSetterHandler {
 
     private final MethodNameGenerator methodNameGenerator;
 
-    public GenerateWithMethodHandler(MethodNameGenerator methodNameGenerator) {
+    public GenerateAccessorMethodHandler(MethodNameGenerator methodNameGenerator) {
         this.methodNameGenerator = methodNameGenerator;
     }
 
     @Override
     protected ClassMember[] chooseMembers(ClassMember[] members, boolean allowEmptySelection, boolean copyJavadocCheckbox, Project project) {
         MemberChooser<ClassMember> chooser = new MemberChooser<ClassMember>(members, allowEmptySelection, true, project);
-        chooser.setTitle("Select Fields to Generate With Methods");
+        chooser.setTitle("Select Fields to Generate Accessor Methods");
         chooser.setCopyJavadocVisible(copyJavadocCheckbox);
         chooser.show();
         myToCopyJavaDoc = chooser.isCopyJavadoc();
@@ -34,15 +33,15 @@ public class GenerateWithMethodHandler extends GenerateSetterHandler {
     @Override
     protected GenerationInfo[] generateMemberPrototypes(PsiClass psiClass, ClassMember classMember) throws IncorrectOperationException {
         if (classMember instanceof PsiFieldMember) {
-            GenerationInfo withMethod = generateWithMethodFor(((PsiFieldMember) classMember).getElement());
-            if (withMethod != null) {
-                return new GenerationInfo[]{withMethod};
+            GenerationInfo accessorMethod = generateAccessorMethodFor(((PsiFieldMember) classMember).getElement());
+            if (accessorMethod != null) {
+                return new GenerationInfo[]{accessorMethod};
             }
         }
         return GenerationInfo.EMPTY_ARRAY;
     }
 
-    private GenerationInfo generateWithMethodFor(PsiField field) {
+    private GenerationInfo generateAccessorMethodFor(PsiField field) {
         PsiMethod templateMethod = generateMethodPrototype(field);
         PsiMethod existingMethod = field.getContainingClass().findMethodBySignature(templateMethod, false);
 
@@ -56,28 +55,24 @@ public class GenerateWithMethodHandler extends GenerateSetterHandler {
 
         String propertyName = codeStyleManager.variableNameToPropertyName(field.getName(), codeStyleManager.getVariableKind(field));
         String methodName = methodNameGenerator.generateMethodNameFor(propertyName);
-        String parameterName = codeStyleManager.propertyNameToVariableName(propertyName, VariableKind.PARAMETER);
 
-        PsiMethod withMethod = generateMethodFor(field, methodName, parameterName, elementFactory);
-        generateMethodBodyFor(withMethod, propertyName, parameterName, elementFactory);
+        PsiMethod accessorMethod = generateMethodFor(field, methodName, elementFactory);
+        generateMethodBodyFor(accessorMethod, propertyName, elementFactory);
 
-        return withMethod;
+        return accessorMethod;
     }
 
-    private PsiMethod generateMethodFor(PsiField field, String methodName, String parameterName, PsiElementFactory elementFactory) {
-        PsiMethod withMethod = elementFactory.createMethod(methodName, elementFactory.createType(field.getContainingClass()));
-        PsiParameter parameter = elementFactory.createParameter(parameterName, field.getType());
-        withMethod.getParameterList().add(parameter);
-        PsiUtil.setModifierProperty(withMethod, PsiModifier.PUBLIC, true);
+    private PsiMethod generateMethodFor(PsiField field, String methodName, PsiElementFactory elementFactory) {
+        PsiMethod accessorMethod = elementFactory.createMethod(methodName, field.getType());
+        PsiUtil.setModifierProperty(accessorMethod, PsiModifier.PUBLIC, true);
 
-        return withMethod;
+        return accessorMethod;
     }
 
-    private PsiMethod generateMethodBodyFor(PsiMethod method, String propertyName, String parameterName, PsiElementFactory elementFactory) {
+    private PsiMethod generateMethodBodyFor(PsiMethod method, String propertyName, PsiElementFactory elementFactory) {
         StringBuilder methodBodyBuilder = new StringBuilder()
                 .append("{\n")
-                .append("this.").append(propertyName).append("=").append(parameterName).append(";\n")
-                .append("return this;\n")
+                .append("return ").append(propertyName).append(";\n")
                 .append("}\n");
 
         PsiCodeBlock methodBody = elementFactory.createCodeBlockFromText(methodBodyBuilder.toString(), null);

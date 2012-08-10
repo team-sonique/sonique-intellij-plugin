@@ -1,5 +1,5 @@
 package sonique.intellij.action;
 
-public interface WithMethodNameGenerator {
+public interface MethodNameGenerator {
     String generateMethodNameFor(String fieldName);
 }

@@ -17,6 +17,10 @@
             <action id="builder.plugin.generate.with.method" class="sonique.intellij.action.GenerateWithMethodAction" text="with method" description="Generate 'With' Methods"/>
             <action id="builder.plugin.generate.with.name.method" class="sonique.intellij.action.GenerateWithNameMethodAction" text="withName method" description="Generate 'WithName' Methods"/>
         </group>
+        <group id="accessor.plugin.group" text="Accessor..." description="Accessor Generator" popup="true">
+            <add-to-group group-id="GenerateGroup" relative-to-action="GenerateEquals" anchor="after"/>
+            <action id="builder.plugin.generate.accessor.method" class="sonique.intellij.action.GenerateAccessorMethodAction" text="accessor method" description="Generate Accessor Methods"/>
+        </group>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
