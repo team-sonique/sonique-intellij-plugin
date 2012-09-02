@@ -57,7 +57,7 @@ public class GenerateAccessorMethodHandler extends GenerateSetterHandler {
         String methodName = methodNameGenerator.generateMethodNameFor(propertyName);
 
         PsiMethod accessorMethod = generateMethodFor(field, methodName, elementFactory);
-        generateMethodBodyFor(accessorMethod, propertyName, elementFactory);
+        generateMethodBodyFor(accessorMethod, field.getName(), elementFactory);
 
         return accessorMethod;
     }
@@ -65,6 +65,9 @@ public class GenerateAccessorMethodHandler extends GenerateSetterHandler {
     private PsiMethod generateMethodFor(PsiField field, String methodName, PsiElementFactory elementFactory) {
         PsiMethod accessorMethod = elementFactory.createMethod(methodName, field.getType());
         PsiUtil.setModifierProperty(accessorMethod, PsiModifier.PUBLIC, true);
+        if(field.hasModifierProperty(PsiModifier.STATIC)) {
+            PsiUtil.setModifierProperty(accessorMethod, PsiModifier.STATIC, true);
+        }
 
         return accessorMethod;
     }
