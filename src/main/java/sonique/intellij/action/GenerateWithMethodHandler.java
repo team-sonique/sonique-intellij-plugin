@@ -2,6 +2,7 @@ package sonique.intellij.action;
 
 import com.intellij.codeInsight.generation.*;
 import com.intellij.ide.util.MemberChooser;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.CodeStyleManager;
@@ -9,6 +10,7 @@ import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.codeStyle.VariableKind;
 import com.intellij.psi.util.PsiUtil;
 import com.intellij.util.IncorrectOperationException;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -20,9 +22,10 @@ public class GenerateWithMethodHandler extends GenerateSetterHandler {
         this.methodNameGenerator = methodNameGenerator;
     }
 
+    @Nullable
     @Override
-    protected ClassMember[] chooseMembers(ClassMember[] members, boolean allowEmptySelection, boolean copyJavadocCheckbox, Project project) {
-        MemberChooser<ClassMember> chooser = new MemberChooser<ClassMember>(members, allowEmptySelection, true, project);
+    protected ClassMember[] chooseMembers(ClassMember[] classMembers, boolean allowEmptySelection, boolean copyJavadocCheckbox, Project project, @Nullable Editor editor) {
+        MemberChooser<ClassMember> chooser = new MemberChooser<ClassMember>(classMembers, allowEmptySelection, true, project);
         chooser.setTitle("Select Fields to Generate With Methods");
         chooser.setCopyJavadocVisible(copyJavadocCheckbox);
         chooser.show();
