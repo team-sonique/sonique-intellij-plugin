@@ -14,7 +14,7 @@ import com.intellij.ui.components.JBList;
 import javax.swing.*;
 import java.awt.*;
 
-public class RecentProjects extends AnAction {
+public class RecentProjectsAction extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         Project[] openProjects = ProjectManager.getInstance().getOpenProjects();
 

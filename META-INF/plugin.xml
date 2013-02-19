@@ -21,9 +21,10 @@
             <add-to-group group-id="GenerateGroup" relative-to-action="GenerateEquals" anchor="after"/>
             <action id="builder.plugin.generate.accessor.method" class="sonique.intellij.action.GenerateAccessorMethodAction" text="accessor method" description="Generate Accessor Methods"/>
         </group>
-        <action id="sonique.plugin.recent.projects" class="sonique.intellij.action.RecentProjects" text="Recent Projects Switcher">
-            <add-to-group group-id="ViewMenu" anchor="first"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="alt x"/>
+        <action id="sonique.plugin.recent.projects" class="sonique.intellij.action.RecentProjectsAction" text="Recent Projects">
+            <add-to-group group-id="ViewRecentActions" anchor="first"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt P"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="meta alt P"/>
         </action>
     </actions>
 
