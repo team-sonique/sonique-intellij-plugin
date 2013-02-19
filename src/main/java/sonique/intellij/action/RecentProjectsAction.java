@@ -2,6 +2,7 @@ package sonique.intellij.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.popup.JBPopup;
@@ -14,7 +15,7 @@ import com.intellij.ui.components.JBList;
 import javax.swing.*;
 import java.awt.*;
 
-public class RecentProjectsAction extends AnAction {
+public class RecentProjectsAction extends AnAction implements DumbAware {
     public void actionPerformed(AnActionEvent e) {
         Project[] openProjects = ProjectManager.getInstance().getOpenProjects();
 
