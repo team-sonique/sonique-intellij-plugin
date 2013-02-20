@@ -23,8 +23,8 @@
         </group>
         <action id="sonique.plugin.recent.projects" class="sonique.intellij.action.RecentProjectsAction" text="Recent Projects">
             <add-to-group group-id="ViewRecentActions" anchor="first"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt P"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="meta alt P"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="control alt P"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="control alt P"/>
         </action>
     </actions>
 
