@@ -11,22 +11,22 @@ import com.intellij.openapi.ui.popup.PopupChooserBuilder;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.ui.ColoredListCellRenderer;
+import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.components.JBList;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static com.intellij.ui.SimpleTextAttributes.REGULAR_ATTRIBUTES;
-import static com.intellij.ui.SimpleTextAttributes.REGULAR_ITALIC_ATTRIBUTES;
-
 public class RecentProjectsAction extends AnAction implements DumbAware {
 
     private final DefaultListModel listModel;
     private final ProjectManager projectManager;
+    private int longestProjectUrlLength = 0;
 
     public RecentProjectsAction() {
         projectManager = ProjectManager.getInstance();
         listModel = new DefaultListModel();
+        updateLongestProjectUrlLength();
         initialiseProjectModel(projectManager);
         projectManager.addProjectManagerListener(new ProjectListener());
     }
@@ -84,16 +84,24 @@ public class RecentProjectsAction extends AnAction implements DumbAware {
         }
     }
 
+    private void updateLongestProjectUrlLength() {
+        for (Project openProject : projectManager.getOpenProjects()) {
+            longestProjectUrlLength = Math.max(longestProjectUrlLength, openProject.getName().length());
+        }
+    }
+
     private class ProjectListener extends ProjectManagerAdapter {
 
         @Override
         public void projectOpened(Project project) {
             listModel.addElement(project);
+            updateLongestProjectUrlLength();
         }
 
         @Override
         public void projectClosed(Project project) {
             listModel.removeElement(project);
+            updateLongestProjectUrlLength();
         }
     }
 
@@ -104,9 +112,11 @@ public class RecentProjectsAction extends AnAction implements DumbAware {
                 setIcon(IconLoader.findIcon("/nodes/ideaProject.png"));
                 Project project = (Project) value;
 
-                append(project.getName(), REGULAR_ATTRIBUTES, true);
-                append("   ");
-                append("[" + project.getPresentableUrl() + "]", REGULAR_ITALIC_ATTRIBUTES);
+                Font font = jList.getFont();
+                setFont(new Font("Menlo", font.getStyle(), font.getSize()));
+
+                append(project.getName(), SimpleTextAttributes.DARK_TEXT, true);
+                append(String.format("%" + (longestProjectUrlLength + 1 - project.getName().length()) + "s[%s]", " ", project.getPresentableUrl()));
             }
         }
     }
