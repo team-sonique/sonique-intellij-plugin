@@ -27,8 +27,4 @@
             <keyboard-shortcut keymap="$default" first-keystroke="control alt P"/>
         </action>
     </actions>
-
-    <extensions defaultExtensionNs="com.intellij">
-        <inspectionToolProvider implementation="sonique.intellij.inspection.SoniqueDeprecatedInspectionProvider"/>
-    </extensions>
 </idea-plugin>
