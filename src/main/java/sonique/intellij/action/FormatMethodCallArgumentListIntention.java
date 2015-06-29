@@ -16,8 +16,11 @@ public class FormatMethodCallArgumentListIntention extends MutablyNamedIntention
     @Override
     protected void processIntention(@NotNull PsiElement psiElement) {
         PsiParserFacade parserFacade = PsiParserFacade.SERVICE.getInstance(psiElement.getProject());
-        PsiMethodCallExpression method = (PsiMethodCallExpression) psiElement;
+        PsiCall method = (PsiCall) psiElement;
         PsiExpressionList list = method.getArgumentList();
+        if (list == null) {
+            return;
+        }
 
         PsiExpression[] expressions = list.getExpressions();
         if (expressions.length == 0) {
@@ -54,7 +57,7 @@ public class FormatMethodCallArgumentListIntention extends MutablyNamedIntention
         return new PsiElementEditorPredicate() {
             @Override
             public boolean satisfiedBy(PsiElement psiElement, Editor editor) {
-                return psiElement instanceof PsiMethodCallExpression;
+                return psiElement instanceof PsiCall;
             }
         };
     }
