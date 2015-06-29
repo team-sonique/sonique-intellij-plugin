@@ -2,7 +2,7 @@
     <name>Sonique Super Awesome Plugin</name>
     <id>sonique-intellij-plugin</id>
     <description>A plugin of awesomeness and super duper abilities</description>
-    <version>1.3</version>
+    <version>1.4</version>
     <vendor>Sonique</vendor>
     <idea-version since-build="8000"/>
 
@@ -31,7 +31,12 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <intentionAction>
-            <className>sonique.intellij.action.FormatParametersIntention</className>
+            <className>sonique.intellij.action.FormatParameterListIntention</className>
+            <bundleName>sonique.intellij.SoniqueIntentionsBundle</bundleName>
+            <categoryKey>intention.category.sonique</categoryKey>
+        </intentionAction>
+        <intentionAction>
+            <className>sonique.intellij.action.FormatMethodCallArgumentListIntention</className>
             <bundleName>sonique.intellij.SoniqueIntentionsBundle</bundleName>
             <categoryKey>intention.category.sonique</categoryKey>
         </intentionAction>

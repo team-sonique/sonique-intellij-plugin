@@ -11,20 +11,20 @@ import java.util.ResourceBundle;
 
 public class SoniqueIntentionsBundle {
 
-    public static String message(@NotNull @PropertyKey(resourceBundle = BUNDLE) String key, @NotNull Object... params) {
-        return CommonBundle.message(getBundle(), key, params);
-    }
-
     private static Reference<ResourceBundle> ourBundle;
 
     @NonNls
     private static final String BUNDLE = "sonique.intellij.SoniqueIntentionsBundle";
 
-    private SoniqueIntentionsBundle() {
+    public static String message(@NotNull @PropertyKey(resourceBundle = BUNDLE) String key, @NotNull Object... params) {
+        return CommonBundle.message(getBundle(), key, params);
     }
 
     public static String defaultableMessage(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params) {
         return CommonBundle.messageOrDefault(getBundle(), key, "default", true, params);
+    }
+
+    private SoniqueIntentionsBundle() {
     }
 
     private static ResourceBundle getBundle() {

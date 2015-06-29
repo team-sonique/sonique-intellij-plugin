@@ -1,0 +1,7 @@
+someMethod(
+    someLongParameterName1,
+    someLongParameterName2,
+    someLongParameterName3,
+    someLongParameterName4,
+    someLongParameterName5
+);
